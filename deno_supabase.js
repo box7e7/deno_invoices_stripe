@@ -10,8 +10,8 @@ const { createInvoiceForCustomer } = await import('./deno_stripe_invoices.js');
 const env=config();
 
 // Access your environment variables
-const supabaseUrl = env.SUPABASE_URL;
-const supabaseKey = env.SUPABASE_KEY;
+const supabaseUrl = env.SUPABASE_URL || Deno.env.get('SUPABASE_URL');
+const supabaseKey = env.SUPABASE_KEY || Deno.env.get('SUPABASE_KEY');
 
 console.log('Supabase URL:', supabaseUrl);
 console.log('Supabase Key:', supabaseKey);

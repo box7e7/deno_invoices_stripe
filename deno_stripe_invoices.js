@@ -8,7 +8,7 @@ import Stripe from "npm:stripe@^11.16";
 const env=config();
 
 // Access your environment variables
-const STRIPE_API_KEY = env.STRIPE_API_KEY;
+const STRIPE_API_KEY = env.STRIPE_API_KEY || Deno.env.get('STRIPE_API_KEY');;
 
 const stripe = new Stripe(STRIPE_API_KEY, {
     apiVersion: '2022-11-15',
