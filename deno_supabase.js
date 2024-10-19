@@ -29,8 +29,8 @@ const channels = supabase.channel('custom-update-channel')
     'postgres_changes',
     { event: 'UPDATE', schema: 'public', table: 'invoices' },
     (payload) => {
-      console.log('Change received!', payload);
-      console.log('Change received!', payload.new.items);
+      console.log('New received!', payload.new);
+      console.log('Old received!', payload.old);
     }
   )
   .subscribe();
@@ -55,9 +55,12 @@ const channels_1 = supabase.channel('custom-insert-channel')
 
         // Update the `invoices` table with the `invoice_id`
         const invoiceId = invoice.id; // Assuming the `invoice` object has an `id` property
+        const hosted_invoice_url=invoice.hosted_invoice_url
+        const invoice_pdf=invoice.invoice_pdf
+
         const { data, error } = await supabase
           .from('invoices')
-          .update({ stripeInvoiceId: invoiceId }) // Update with the new invoice_id
+          .update({ stripeInvoiceId: invoiceId, stripeInvoiceUrl:hosted_invoice_url, stripeInvoicePdf:invoice_pdf,stripeInvoiceStatus:"draft" }) // Update with the new invoice_id
           .eq('id', payload.new.id); // Match the row using the `id` from the payload
 
         if (error) {
